@@ -13,7 +13,10 @@ gem "rubocop", "~> 1.21"
 
 gem "roo"
 
+group :development, :test do
+  gem "pd_ruby"
+end
+
 group :development do
   gem "pry"
-  gem "pd_ruby"
 end
