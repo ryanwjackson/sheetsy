@@ -4,5 +4,8 @@ require_relative "sheetsy/version"
 
 module Sheetsy
   class Error < StandardError; end
-  # Your code goes here...
+
+  def self.run
+    puts "Hello world!"
+  end
 end

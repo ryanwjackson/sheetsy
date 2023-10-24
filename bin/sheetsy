@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'sheetsy'
+puts Sheetsy::run
