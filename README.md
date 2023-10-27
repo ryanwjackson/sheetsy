@@ -1,8 +1,6 @@
 # Sheetsy
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sheetsy`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Sheetsy is a simple ruby utility to recursively convert all CSV and Excel-based sheets to individual JSON files.
 
 ## Installation
 
@@ -19,13 +17,13 @@ If bundler is not being used to manage dependencies, install the gem by executin
 To get started, run the following command from bash:
 
 ```bash
-    $> sheetsy convert
+    $ sheetsy convert
 ```
 
 To learn more about available options:
 
 ```bash
-    $> sheetsy help convert
+    $ sheetsy help convert
 ```
 
 ## Development
