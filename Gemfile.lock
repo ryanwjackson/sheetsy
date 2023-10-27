@@ -62,6 +62,7 @@ GEM
       parser (>= 3.2.1.0)
     ruby-progressbar (1.13.0)
     rubyzip (2.3.2)
+    thor (1.2.2)
     unicode-display_width (2.5.0)
 
 PLATFORMS
@@ -75,6 +76,7 @@ DEPENDENCIES
   rspec (~> 3.0)
   rubocop (~> 1.21)
   sheetsy!
+  thor
 
 BUNDLED WITH
    2.3.26
