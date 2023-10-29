@@ -75,6 +75,7 @@ DEPENDENCIES
   roo
   rspec (~> 3.0)
   rubocop (~> 1.21)
+  ruby-progressbar
   sheetsy!
   thor
 

@@ -2,68 +2,90 @@
 
 module Sheetsy
   class Converter
-    attr_reader :source, :destination, :overwrite
+    attr_reader :source, :destination, :options
 
-    def initialize(source, destination, overwrite = false)
+    def initialize(source, destination, options = {})
       @source = source
       @destination = destination
-      @overwrite = overwrite
+      @options = options
     end
 
     def run
-      files = Dir.glob(File.join(source, "**/*.{xls,xlsx,csv}"))
-      puts "Files found: #{files.count}"
+      debug "Files found: #{files.count}"
+
+      progress_bar.progress = 0
 
       FileUtils.mkdir_p(destination) unless File.directory?(destination)
 
       files.each do |file|
         process_file(file)
+        progress_bar.increment
       end
+
+      puts "Conversion complete."
     end
 
     def overwrite?
-      overwrite == true
+      @overwrite ||= options[:overwrite]
+    end
+
+    def debug?
+      @debug ||= options[:debug]
     end
 
     private
 
+    def files
+      @files ||= Dir.glob(File.join(source, "**/*.{xls,xlsx,csv}"))
+    end
+
+    def progress_bar
+      @progress_bar ||= ProgressBar.create(title: "Files", total: files.count)
+    end
+
+    def debug(str)
+      return unless debug?
+
+      progress_bar.log str
+    end
+
     def process_csv(file)
-      puts "Processing as CSV"
+      debug "Processing as CSV"
 
       output_file_path = File.join(destination, "#{nameify(file)}.json")
       return if skip?(output_file_path)
 
-      puts "File #{output_file_path}"
+      debug "File #{output_file_path}"
 
       data = CSV.read(file, headers: true).map(&:to_h)
       write_json(output_file_path, data)
-      puts "Converted #{file} to #{output_file_path}\n\n"
+      debug "Converted #{file} to #{output_file_path}\n\n"
     end
 
     def process_excel(file)
-      puts "Processing as Excel"
+      debug "Processing as Excel"
       excel = Roo::Spreadsheet.open(file)
 
       excel.sheets.each do |sheet_name|
         output_file_path = File.join(destination, "#{nameify(file)}__sheet__#{nameify(sheet_name)}.json")
         return if skip?(output_file_path)
 
-        puts "Sheet #{output_file_path}"
+        debug "Sheet #{output_file_path}"
 
         sheet = excel.sheet(sheet_name)
         header_row = (output_file_path.include?("Synergy_Output__") ? 2 : 1)
         header = sheet.row(header_row)
         data = ((header_row + 1)..sheet.last_row).map { |i| Hash[header.zip(sheet.row(i))] }
         write_json(output_file_path, data)
-        puts "Converted #{file} to #{output_file_path}\n\n"
+        debug "Converted #{file} to #{output_file_path}\n\n"
       end
     end
 
     def process_file(file)
-      puts "File: #{file}"
+      debug "File: #{file}"
 
       if file.include?("~$")
-        puts "Skipping #{file}\n\n"
+        debug "Skipping #{file}\n\n"
 
         return
       end
@@ -76,7 +98,7 @@ module Sheetsy
       elsif [".xls", ".xlsx"].include?(extension)
         process_excel(file)
       else
-        puts "Unsupported file format: #{file}"
+        debug "Unsupported file format: #{file}"
         return
       end
     end
@@ -95,7 +117,7 @@ module Sheetsy
       return false if overwrite?
       return false unless File.exist?(file)
 
-      puts "Skipping #{file}"
+      debug "Skipping #{file}"
       true
     end
   end

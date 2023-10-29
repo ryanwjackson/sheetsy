@@ -7,7 +7,8 @@ module Sheetsy
     desc "convert", "Convert sheets to JSON"
     option :source, type: :string, aliases: :s
     option :destination, type: :string, aliases: :d
-    option :override, type: :boolean, aliases: :o, default: false
+    option :overwrite, type: :boolean, aliases: :o, default: false
+    option :debug, type: :boolean, default: false
     def convert
       source = if options[:source]
                  options[:source]
@@ -27,15 +28,7 @@ module Sheetsy
                       get_input("Output Directory", File.join(*default_source_folders, default_output_folder))
                     end
 
-      overwrite = if options[:overwrite]
-                    options[:overwrite]
-                  elsif ENV.key?("OVERWRITE")
-                    ENV.fetch("OVERWRITE")&.downcase == "y"
-                  else
-                    get_input("Overwrite Y/n? (n): ", "n").downcase == "y"
-                  end
-
-      Sheetsy::Converter.new(source, destination, overwrite).run
+      Sheetsy::Converter.new(source, destination, options).run
     end
 
     private

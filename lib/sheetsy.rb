@@ -4,6 +4,7 @@ require "json"
 require "roo"
 require "csv"
 require "pry"
+require "ruby-progressbar"
 
 require_relative "sheetsy/version"
 require_relative "sheetsy/converter"
