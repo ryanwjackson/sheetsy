@@ -31,6 +31,21 @@ module Sheetsy
       Sheetsy::Converter.new(source, destination, options).run
     end
 
+    desc "reader", "Read JSON sheets"
+    option :source, type: :string, aliases: :s
+    option :debug, type: :boolean, default: false
+    def reader
+      source = if options[:source]
+                 options[:source]
+               elsif ENV.key?("SOURCE")
+                 ENV.fetch("SOURCE")
+               else
+                 get_input("Source Directory", Dir.pwd)
+               end
+
+      Sheetsy::Reader.new(source, options).run
+    end
+
     private
 
     def get_input(text, default)
