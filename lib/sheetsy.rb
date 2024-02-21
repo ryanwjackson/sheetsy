@@ -8,6 +8,7 @@ require "ruby-progressbar"
 
 require_relative "sheetsy/version"
 require_relative "sheetsy/converter"
+require_relative "sheetsy/json_file"
 require_relative "sheetsy/reader"
 require_relative "sheetsy/cli"
 

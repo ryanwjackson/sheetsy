@@ -13,14 +13,12 @@ module Sheetsy
       debug "Files found: #{files.count}"
 
       progress_bar.progress = 0
-      ret = {}
 
-      files.each do |file|
-        ret[file] = process_file(file)
+      @data = files.map do |file|
+        ret = JSONFile.new(file)
         progress_bar.increment
+        ret
       end
-
-      @data = ret
     end
 
     def overwrite?
@@ -45,16 +43,6 @@ module Sheetsy
       return unless debug?
 
       progress_bar.log str
-    end
-
-    def process_file(file)
-      debug "File: #{file}"
-
-      JSON.parse(File.read(file))
-    end
-
-    def progress_bar
-      @progress_bar ||= ProgressBar.create(title: "Files", total: files.count)
     end
   end
 end
