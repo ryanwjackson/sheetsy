@@ -33,6 +33,13 @@ Gem::Specification.new do |spec|
 
   # spec.add_development_dependency('pd_ruby')
 
+  spec.add_runtime_dependency("rake", "~> 13.0")
+  spec.add_runtime_dependency("rspec", "~> 3.0")
+  spec.add_runtime_dependency("rubocop", "~> 1.21")
+  spec.add_runtime_dependency("roo")
+  spec.add_runtime_dependency("ruby-progressbar")
+  spec.add_runtime_dependency("thor")
+
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 end

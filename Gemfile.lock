@@ -2,6 +2,12 @@ PATH
   remote: .
   specs:
     sheetsy (1.0.0)
+      rake (~> 13.0)
+      roo
+      rspec (~> 3.0)
+      rubocop (~> 1.21)
+      ruby-progressbar
+      thor
 
 GEM
   remote: https://rubygems.org/
@@ -71,13 +77,7 @@ PLATFORMS
 DEPENDENCIES
   pd_ruby
   pry
-  rake (~> 13.0)
-  roo
-  rspec (~> 3.0)
-  rubocop (~> 1.21)
-  ruby-progressbar
   sheetsy!
-  thor
 
 BUNDLED WITH
    2.3.26
